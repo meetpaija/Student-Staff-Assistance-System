@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.assistance.studentstaff.common.CustomGenericException;
-import com.assistance.studentstaff.model.User;
-import com.assistance.studentstaff.model.UserAvatarImage;
+import com.assistance.studentstaff.model.UserModel;
+import com.assistance.studentstaff.model.UserAvatarImageModel;
 import com.assistance.studentstaff.repo.IUserAvatarImageRepo;
 import com.assistance.studentstaff.repo.IUserRepo;
 import com.assistance.studentstaff.service.IUserAvatarImageService;
@@ -23,8 +23,8 @@ public class UserAvatarImageServiceImpl implements IUserAvatarImageService {
 	@Autowired
 	IUserAvatarImageRepo userAvatarImageRepo;
 
-	public UserAvatarImage saveImage(String userId, MultipartFile file) {
-		UserAvatarImage image = new UserAvatarImage();
+	public UserAvatarImageModel saveImage(String userId, MultipartFile file) {
+		UserAvatarImageModel image = new UserAvatarImageModel();
 		image.setUserId(userId);
 		image.setContentType(file.getContentType());
 		image.setLength(file.getSize());
@@ -36,8 +36,8 @@ public class UserAvatarImageServiceImpl implements IUserAvatarImageService {
 		return userAvatarImageRepo.save(image);
 	}
 
-	public UserAvatarImage fetchImage(String userId) throws CustomGenericException {
-		Optional<UserAvatarImage> image = userAvatarImageRepo.findById(userId);
+	public UserAvatarImageModel fetchImage(String userId) throws CustomGenericException {
+		Optional<UserAvatarImageModel> image = userAvatarImageRepo.findById(userId);
 		if (image.isPresent()) {
 			return image.get();
 		} else {
@@ -46,8 +46,8 @@ public class UserAvatarImageServiceImpl implements IUserAvatarImageService {
 	}
 
 	@Override
-	public UserAvatarImage saveAvatarImg(String userId, MultipartFile file) throws CustomGenericException {
-		Optional<User> user = userRepo.findById(userId);
+	public UserAvatarImageModel saveAvatarImg(String userId, MultipartFile file) throws CustomGenericException {
+		Optional<UserModel> user = userRepo.findById(userId);
 		if (user.isPresent()) {
 			return saveImage(userId, file);
 		} else {
@@ -56,8 +56,8 @@ public class UserAvatarImageServiceImpl implements IUserAvatarImageService {
 	}
 
 	@Override
-	public UserAvatarImage fetchAvatarImage(String userId) throws CustomGenericException {
-		Optional<User> user = userRepo.findById(userId);
+	public UserAvatarImageModel fetchAvatarImage(String userId) throws CustomGenericException {
+		Optional<UserModel> user = userRepo.findById(userId);
 		if(user.isPresent()) {
 			return fetchImage(userId);
 		} else {

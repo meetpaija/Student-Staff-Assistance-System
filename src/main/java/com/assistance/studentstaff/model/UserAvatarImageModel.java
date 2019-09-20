@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 @Table(name = "avatar_img")
 @JsonInclude(value = Include.NON_NULL)
-public class UserAvatarImage implements Serializable{
+public class UserAvatarImageModel implements Serializable{
 
 	private static final long serialVersionUID = -3478279473929101418L;
 

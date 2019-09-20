@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.assistance.studentstaff.common.ApiResponse;
 import com.assistance.studentstaff.common.CustomGenericException;
 import com.assistance.studentstaff.common.ResponseUtility;
-import com.assistance.studentstaff.model.UserRole;
+import com.assistance.studentstaff.model.UserRoleModel;
 import com.assistance.studentstaff.service.IUserRolesService;
 
 @RestController
@@ -32,12 +32,12 @@ public class UserRolesController extends ResponseUtility {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ApiResponse> insertNewRole(@Valid @RequestBody UserRole userRole) throws CustomGenericException {
+	public ResponseEntity<ApiResponse> insertNewRole(@Valid @RequestBody UserRoleModel userRole) throws CustomGenericException {
 		return buildSuccessResponse(userRolesService.insertNewRole(userRole));
 	}
 	
 	@PutMapping("/{roleId}")
-	public ResponseEntity<ApiResponse> updateRole(@PathVariable("roleId") String roleId, @Valid @RequestBody UserRole userRole) throws CustomGenericException {
+	public ResponseEntity<ApiResponse> updateRole(@PathVariable("roleId") String roleId, @Valid @RequestBody UserRoleModel userRole) throws CustomGenericException {
 		return buildSuccessResponse(userRolesService.updateRole(roleId, userRole));
 	}
 	

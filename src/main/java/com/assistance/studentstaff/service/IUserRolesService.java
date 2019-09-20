@@ -5,16 +5,18 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.assistance.studentstaff.common.CustomGenericException;
-import com.assistance.studentstaff.model.UserRole;
+import com.assistance.studentstaff.model.UserRoleModel;
 
 public interface IUserRolesService {
 
-	List<UserRole> fetchAllUserRoles();
+	List<UserRoleModel> fetchAllUserRoles();
 
-	UserRole insertNewRole(UserRole userRole) throws CustomGenericException;
+	UserRoleModel insertNewRole(UserRoleModel userRole) throws CustomGenericException;
 
-	UserRole updateRole(String roleId, @Valid UserRole userRole) throws CustomGenericException;
+	UserRoleModel updateRole(String roleId, UserRoleModel userRole) throws CustomGenericException;
 
 	void deleteRole(String roleId) throws CustomGenericException;
+
+	UserRoleModel findUserRoleById(String roleId) throws CustomGenericException;
 
 }

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 @Table(name = "users")
 @JsonInclude(value = Include.NON_NULL)
-public class User implements Serializable{
+public class UserModel implements Serializable{
 
 	private static final long serialVersionUID = 4009310373991153554L;
 
