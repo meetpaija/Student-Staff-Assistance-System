@@ -47,9 +47,6 @@ public class UserModel implements Serializable{
 	@Column(name = "MOBILE_NO")
 	private long mobileNo;
 	
-	@Column(name = "ADDRESS")
-	private String address;
-	
 	public String getUserId() {
 		return userId;
 	}
@@ -112,14 +109,6 @@ public class UserModel implements Serializable{
 
 	public void setMobileNo(long mobileNo) {
 		this.mobileNo = mobileNo;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 }
