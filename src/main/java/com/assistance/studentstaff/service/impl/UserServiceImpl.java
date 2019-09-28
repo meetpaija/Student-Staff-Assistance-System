@@ -5,8 +5,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.assistance.studentstaff.common.CustomGenericException;
@@ -23,6 +29,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	IUserRepo userRepo;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	@Autowired
 	IUserRolesRepo userRolesRepo;
@@ -116,6 +125,36 @@ public class UserServiceImpl implements IUserService {
 			return setNullPassword(userRepo.save(existingUser.get()));
 		} else {
 			throw new CustomGenericException("User doesn't exists");
+		}
+	}
+
+	@Override
+	public void forgetPassword(String emailId) throws CustomGenericException {
+		Optional<UserModel> existingUser = userRepo.findByEmailIdOrUserName(emailId, emailId);
+		if (existingUser.isPresent()) {
+			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			String randomPwd = RandomStringUtils.random( 5, characters );
+			existingUser.get().setPassword(PasswordHashing.encrypt(randomPwd));
+			userRepo.save(existingUser.get());
+			sendRandomPwdInMail(existingUser.get(), randomPwd);
+		} else {
+			throw new CustomGenericException("User doesn't exists");
+		}
+	}
+
+	private void sendRandomPwdInMail(UserModel userModel, String randomPwd) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper;
+		
+		try {
+			helper = new MimeMessageHelper(mimeMessage,true);
+			helper.setTo(userModel.getEmailId());
+			helper.setSubject("Password To Login Securely");
+			helper.setText("hi! " + userModel.getUserName() + "\n\n" + "Your random password for next login is :" + randomPwd + "\n\n" + "Thanks,\nStudent Staff Assistance System");
+			javaMailSender.send(mimeMessage);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 	}
 
