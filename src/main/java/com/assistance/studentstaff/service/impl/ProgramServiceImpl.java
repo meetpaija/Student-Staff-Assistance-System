@@ -25,8 +25,9 @@ public class ProgramServiceImpl implements IProgramService {
 	IDepartmentService deptService;
 	
 	@Override
-	public List<ProgramModel> fetchAllPrograms(String deptId) {
-		return progRepo.findAll();
+	public List<ProgramModel> fetchAllPrograms(String deptId) throws CustomGenericException {
+		deptService.findDeptById(deptId);
+		return progRepo.findByDeptId(deptId);
 	}
 
 	@Override

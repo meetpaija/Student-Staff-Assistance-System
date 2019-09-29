@@ -27,8 +27,10 @@ public class CourseServiceImpl implements ICourseService {
 	IProgramService progService;
 
 	@Override
-	public List<CourseModel> fetchAllCourse(String deptId, String progId) {
-		return courseRepo.findAll();
+	public List<CourseModel> fetchAllCourse(String deptId, String progId) throws CustomGenericException {
+		deptService.findDeptById(deptId);
+		progService.findProgramById(progId);
+		return courseRepo.findByDeptAndProgram(deptId, progId);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import com.assistance.studentstaff.model.ProgramModel;
 
 public interface IProgramService {
 
-	List<ProgramModel> fetchAllPrograms(String deptId);
+	List<ProgramModel> fetchAllPrograms(String deptId) throws CustomGenericException;
 
 	ProgramModel findProgramById(String deptId) throws CustomGenericException;
 

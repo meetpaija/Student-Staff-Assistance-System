@@ -29,7 +29,7 @@ public class ProgramController extends ResponseUtility {
 	IProgramService programService;
 
 	@GetMapping("/departments/{deptId}/programs")
-	public ResponseEntity<ApiResponse> fetchAllPrograms(@PathVariable("deptId") String deptId) {
+	public ResponseEntity<ApiResponse> fetchAllPrograms(@PathVariable("deptId") String deptId) throws CustomGenericException {
 		return buildSuccessResponse(programService.fetchAllPrograms(deptId));
 	}
 

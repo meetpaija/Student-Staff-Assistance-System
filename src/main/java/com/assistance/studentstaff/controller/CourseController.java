@@ -30,7 +30,7 @@ public class CourseController extends ResponseUtility {
 
 	@GetMapping("/departments/{deptId}/programs/{progId}/courses")
 	public ResponseEntity<ApiResponse> fetchAllcourses(@PathVariable("deptId") String deptId,
-			@PathVariable("progId") String progId) {
+			@PathVariable("progId") String progId) throws CustomGenericException {
 		return buildSuccessResponse(courseService.fetchAllCourse(deptId, progId));
 	}
 
