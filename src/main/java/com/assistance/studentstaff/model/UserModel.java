@@ -41,6 +41,12 @@ public class UserModel implements Serializable{
 	@Column(name = "FNAME")
 	private String firstName;
 	
+	@Column(name = "DEPT_ID")
+	private String deptId;
+	
+	@Column(name = "PROG_ID")
+	private String progId;
+	
 	@Column(name = "LNAME")
 	private String lastName;
 	
@@ -109,6 +115,22 @@ public class UserModel implements Serializable{
 
 	public void setMobileNo(long mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getProgId() {
+		return progId;
+	}
+
+	public void setProgId(String progId) {
+		this.progId = progId;
 	}
 
 }

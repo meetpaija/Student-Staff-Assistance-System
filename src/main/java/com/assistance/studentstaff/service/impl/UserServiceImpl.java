@@ -21,6 +21,8 @@ import com.assistance.studentstaff.model.UserModel;
 import com.assistance.studentstaff.model.UserRoleModel;
 import com.assistance.studentstaff.repo.IUserRepo;
 import com.assistance.studentstaff.repo.IUserRolesRepo;
+import com.assistance.studentstaff.service.IDepartmentService;
+import com.assistance.studentstaff.service.IProgramService;
 import com.assistance.studentstaff.service.IUserAvatarImageService;
 import com.assistance.studentstaff.service.IUserService;
 
@@ -38,6 +40,12 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	IUserAvatarImageService userAvatarImageService;
+	
+	@Autowired
+	IDepartmentService departmentService;
+	
+	@Autowired
+	IProgramService programService;
 
 	@Override
 	public List<UserModel> fetchAllUsers() {
@@ -58,6 +66,8 @@ public class UserServiceImpl implements IUserService {
 		}
 		Optional<UserRoleModel> userRole = userRolesRepo.findById(user.getRoleId());
 		if (userRole.isPresent()) {
+			departmentService.findDeptById(user.getDeptId());
+			programService.findProgramById(user.getProgId());
 			user.setUserId(UUID.randomUUID().toString());
 			user.setPassword(PasswordHashing.encrypt(user.getPassword()));
 			return setNullPassword(userRepo.save(user));

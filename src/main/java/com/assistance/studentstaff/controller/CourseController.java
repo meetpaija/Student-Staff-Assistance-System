@@ -22,36 +22,41 @@ import com.assistance.studentstaff.service.ICourseService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/course")
+@RequestMapping
 public class CourseController extends ResponseUtility {
 
 	@Autowired
 	ICourseService courseService;
 
-	@GetMapping
-	public ResponseEntity<ApiResponse> fetchAllcourses() {
-		return buildSuccessResponse(courseService.fetchAllCourse());
+	@GetMapping("/departments/{deptId}/programs/{progId}/courses")
+	public ResponseEntity<ApiResponse> fetchAllcourses(@PathVariable("deptId") String deptId,
+			@PathVariable("progId") String progId) {
+		return buildSuccessResponse(courseService.fetchAllCourse(deptId, progId));
 	}
 
-	@GetMapping("/{courseId}")
+	@GetMapping("/courses/{courseId}")
 	public ResponseEntity<ApiResponse> fetchCourseById(@PathVariable("courseId") String courseId)
 			throws CustomGenericException {
 		return buildSuccessResponse(courseService.findCourseById(courseId));
 	}
 
-	@PostMapping
-	public ResponseEntity<ApiResponse> insertNewRole(@Valid @RequestBody CourseModel course)
+	@PostMapping("/departments/{deptId}/programs/{progId}/courses")
+	public ResponseEntity<ApiResponse> insertNewRole(@PathVariable("deptId") String deptId,
+			@PathVariable("progId") String progId,
+			@Valid @RequestBody CourseModel course)
 			throws CustomGenericException {
-		return buildSuccessResponse(courseService.insertCourse(course));
+		return buildSuccessResponse(courseService.insertCourse(deptId, progId, course));
 	}
 
-	@PutMapping("/{courseId}")
-	public ResponseEntity<ApiResponse> updateRole(@PathVariable("courseId") String courseId,
+	@PutMapping("/departments/{deptId}/programs/{progId}/courses/{courseId}")
+	public ResponseEntity<ApiResponse> updateRole(@PathVariable("deptId") String deptId,
+			@PathVariable("progId") String progId,
+			@PathVariable("courseId") String courseId,
 			@Valid @RequestBody CourseModel course) throws CustomGenericException {
-		return buildSuccessResponse(courseService.updateCourse(courseId, course));
+		return buildSuccessResponse(courseService.updateCourse(deptId, progId, courseId, course));
 	}
 
-	@DeleteMapping("/{courseId}")
+	@DeleteMapping("/courses/{courseId}")
 	public ResponseEntity<ApiResponse> deleteRole(@PathVariable("courseId") String courseId)
 			throws CustomGenericException {
 		courseService.deleteCourse(courseId);
