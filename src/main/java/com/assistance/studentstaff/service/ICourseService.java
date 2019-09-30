@@ -7,11 +7,11 @@ import com.assistance.studentstaff.model.CourseModel;
 
 public interface ICourseService {
 
-	List<CourseModel> fetchAllCourse();
+	List<CourseModel> fetchAllCourse(String deptId, String progId) throws CustomGenericException;
 
-	CourseModel insertCourse(CourseModel course) throws CustomGenericException;
+	CourseModel insertCourse(String deptId, String progId, CourseModel course) throws CustomGenericException;
 
-	CourseModel updateCourse(String courseId, CourseModel course) throws CustomGenericException;
+	CourseModel updateCourse(String courseId, String progId, String courseId2, CourseModel course) throws CustomGenericException;
 
 	void deleteCourse(String courseId) throws CustomGenericException;
 	

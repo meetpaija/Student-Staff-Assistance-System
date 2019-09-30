@@ -11,6 +11,8 @@ import com.assistance.studentstaff.common.CustomGenericException;
 import com.assistance.studentstaff.model.CourseModel;
 import com.assistance.studentstaff.repo.ICourseRepo;
 import com.assistance.studentstaff.service.ICourseService;
+import com.assistance.studentstaff.service.IDepartmentService;
+import com.assistance.studentstaff.service.IProgramService;
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -18,26 +20,38 @@ public class CourseServiceImpl implements ICourseService {
 	@Autowired
 	ICourseRepo courseRepo;
 
+	@Autowired
+	IDepartmentService deptService;
+	
+	@Autowired
+	IProgramService progService;
+
 	@Override
-	public List<CourseModel> fetchAllCourse() {
-		return courseRepo.findAll();
+	public List<CourseModel> fetchAllCourse(String deptId, String progId) throws CustomGenericException {
+		deptService.findDeptById(deptId);
+		progService.findProgramById(progId);
+		return courseRepo.findByDeptAndProgram(deptId, progId);
 	}
 
 	@Override
-	public CourseModel insertCourse(CourseModel course) throws CustomGenericException {
+	public CourseModel insertCourse(String deptId, String progId, CourseModel course) throws CustomGenericException {
 		CourseModel existingCourse = courseRepo.findByName(course.getCourseName());
 		if (existingCourse != null) {
 			throw new CustomGenericException("course is already exists");
 		} else {
+			deptService.findDeptById(course.getDeptId());
+			progService.findProgramById(course.getProgId());
 			course.setCourseId(UUID.randomUUID().toString());
 			return courseRepo.save(course);
 		}
 	}
 
 	@Override
-	public CourseModel updateCourse(String courseId, CourseModel newCourse) throws CustomGenericException {
+	public CourseModel updateCourse(String deptId, String progId, String courseId, CourseModel newCourse) throws CustomGenericException {
 		CourseModel oldCourse = courseRepo.findCourseById(courseId);
 		if (oldCourse != null) {
+			deptService.findDeptById(newCourse.getDeptId());
+			progService.findProgramById(newCourse.getProgId());
 			oldCourse.setCourseName(newCourse.getCourseName());
 			oldCourse.setCourseDescription(newCourse.getCourseDescription());
 			oldCourse.setActive(newCourse.getActive());

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -26,6 +27,14 @@ public class CourseModel implements Serializable {
 
 	@Column(name = "description")
 	private String courseDescription;
+	
+	@Column(name = "dept_id")
+	@NotBlank
+	private String deptId;
+	
+	@Column(name = "prog_id")
+	@NotBlank
+	private String progId;
 
 	@Column(name = "active", nullable = false)
 	private int active;
@@ -61,4 +70,21 @@ public class CourseModel implements Serializable {
 	public void setActive(int active) {
 		this.active = active;
 	}
+
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getProgId() {
+		return progId;
+	}
+
+	public void setProgId(String progId) {
+		this.progId = progId;
+	}
+	
 }
