@@ -22,12 +22,12 @@ public class CourseServiceImpl implements ICourseService {
 
 	@Autowired
 	IDepartmentService deptService;
-	
+
 	@Autowired
 	IProgramService progService;
 
 	@Override
-	public List<CourseModel> fetchAllCourse(String deptId, String progId) throws CustomGenericException {
+	public List<CourseModel> fetchAllCourseByDeptAndProg(String deptId, String progId) throws CustomGenericException {
 		deptService.findDeptById(deptId);
 		progService.findProgramById(progId);
 		return courseRepo.findByDeptAndProgram(deptId, progId);
@@ -47,7 +47,8 @@ public class CourseServiceImpl implements ICourseService {
 	}
 
 	@Override
-	public CourseModel updateCourse(String deptId, String progId, String courseId, CourseModel newCourse) throws CustomGenericException {
+	public CourseModel updateCourse(String deptId, String progId, String courseId, CourseModel newCourse)
+			throws CustomGenericException {
 		CourseModel oldCourse = courseRepo.findCourseById(courseId);
 		if (oldCourse != null) {
 			deptService.findDeptById(newCourse.getDeptId());
@@ -79,6 +80,11 @@ public class CourseServiceImpl implements ICourseService {
 		} else {
 			throw new CustomGenericException("This course doen't exists");
 		}
+	}
+
+	@Override
+	public List<CourseModel> fetchAllCourse() throws CustomGenericException {
+		return courseRepo.findAll();
 	}
 
 }

@@ -28,10 +28,15 @@ public class CourseController extends ResponseUtility {
 	@Autowired
 	ICourseService courseService;
 
+	@GetMapping("/courses")
+	public ResponseEntity<ApiResponse> fetchAllCourses() throws CustomGenericException {
+		return buildSuccessResponse(courseService.fetchAllCourse());
+	}
+
 	@GetMapping("/departments/{deptId}/programs/{progId}/courses")
-	public ResponseEntity<ApiResponse> fetchAllcourses(@PathVariable("deptId") String deptId,
+	public ResponseEntity<ApiResponse> fetchAllCoursesByDeptAndProg(@PathVariable("deptId") String deptId,
 			@PathVariable("progId") String progId) throws CustomGenericException {
-		return buildSuccessResponse(courseService.fetchAllCourse(deptId, progId));
+		return buildSuccessResponse(courseService.fetchAllCourseByDeptAndProg(deptId, progId));
 	}
 
 	@GetMapping("/courses/{courseId}")
@@ -42,16 +47,14 @@ public class CourseController extends ResponseUtility {
 
 	@PostMapping("/departments/{deptId}/programs/{progId}/courses")
 	public ResponseEntity<ApiResponse> insertNewRole(@PathVariable("deptId") String deptId,
-			@PathVariable("progId") String progId,
-			@Valid @RequestBody CourseModel course)
+			@PathVariable("progId") String progId, @Valid @RequestBody CourseModel course)
 			throws CustomGenericException {
 		return buildSuccessResponse(courseService.insertCourse(deptId, progId, course));
 	}
 
 	@PutMapping("/departments/{deptId}/programs/{progId}/courses/{courseId}")
 	public ResponseEntity<ApiResponse> updateRole(@PathVariable("deptId") String deptId,
-			@PathVariable("progId") String progId,
-			@PathVariable("courseId") String courseId,
+			@PathVariable("progId") String progId, @PathVariable("courseId") String courseId,
 			@Valid @RequestBody CourseModel course) throws CustomGenericException {
 		return buildSuccessResponse(courseService.updateCourse(deptId, progId, courseId, course));
 	}
