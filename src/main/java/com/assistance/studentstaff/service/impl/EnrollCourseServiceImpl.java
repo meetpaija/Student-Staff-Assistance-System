@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,6 +96,11 @@ public class EnrollCourseServiceImpl implements IEnrollCourseService{
 		} else {
 			throw new CustomGenericException("User doesn't exist");
 		}
+	}
+
+	@Override
+	public void deleteEnrolledCourse(@Valid EnrollCourseIdModel enrollCourseId) {
+		enrollCourseRepo.deleteById(enrollCourseId);
 	}
 
 }

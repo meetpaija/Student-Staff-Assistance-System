@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,5 +50,12 @@ public class EnrollCourseController extends ResponseUtility {
 	public ResponseEntity<ApiResponse> approveCourses(@PathVariable("userId") String userId,
 			@Valid @RequestBody EnrollCourseIdModel enrollCourseId) throws CustomGenericException {
 		return buildSuccessResponse(enrollCourseService.approveCourse(userId, enrollCourseId));
+	}
+	
+	@DeleteMapping("/enrolledCourse")
+	public ResponseEntity<ApiResponse> deleteEnrolledCourse(
+			@Valid @RequestBody EnrollCourseIdModel enrollCourseId) throws CustomGenericException {
+		enrollCourseService.deleteEnrolledCourse(enrollCourseId);
+		return buildSuccessResponse();
 	}
 }

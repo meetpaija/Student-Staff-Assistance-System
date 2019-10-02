@@ -160,7 +160,10 @@ public class UserServiceImpl implements IUserService {
 			helper = new MimeMessageHelper(mimeMessage,true);
 			helper.setTo(userModel.getEmailId());
 			helper.setSubject("Password To Login Securely");
-			helper.setText("hi! " + userModel.getUserName() + "\n\n" + "Your random password for next login is :" + randomPwd + "\n\n" + "Thanks,\nStudent Staff Assistance System");
+			helper.setText("Dear " + userModel.getUserName() + ",\n\n" 
+						+ "Your random password for next login is :" + randomPwd + "\n\n" 
+						+ "Please change your password after login to the System. \n\n" 
+						+ "Thanks,\nStudent Staff Assistance System");
 			javaMailSender.send(mimeMessage);
 			
 		} catch (MessagingException e) {

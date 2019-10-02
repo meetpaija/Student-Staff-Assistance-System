@@ -18,4 +18,6 @@ public interface IEnrollCourseService {
 
 	EnrollCourseModel approveCourse(String userId, EnrollCourseIdModel enrollCourseId) throws CustomGenericException;
 
+	void deleteEnrolledCourse(@Valid EnrollCourseIdModel enrollCourseId);
+
 }
