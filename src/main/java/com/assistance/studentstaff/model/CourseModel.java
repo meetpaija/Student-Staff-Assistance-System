@@ -36,9 +36,6 @@ public class CourseModel implements Serializable {
 	@NotBlank
 	private String progId;
 
-	@Column(name = "active", nullable = false)
-	private int active;
-
 	public String getCourseId() {
 		return courseId;
 	}
@@ -61,14 +58,6 @@ public class CourseModel implements Serializable {
 
 	public void setCourseDescription(String courseDescription) {
 		this.courseDescription = courseDescription;
-	}
-
-	public int getActive() {
-		return active;
-	}
-
-	public void setActive(int active) {
-		this.active = active;
 	}
 
 	public String getDeptId() {

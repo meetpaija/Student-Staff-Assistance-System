@@ -53,10 +53,8 @@ public class CourseServiceImpl implements ICourseService {
 		if (oldCourse != null) {
 			deptService.findDeptById(newCourse.getDeptId());
 			progService.findProgramById(newCourse.getProgId());
-			oldCourse.setCourseName(newCourse.getCourseName());
-			oldCourse.setCourseDescription(newCourse.getCourseDescription());
-			oldCourse.setActive(newCourse.getActive());
-			return courseRepo.save(oldCourse);
+			newCourse.setCourseId(courseId);
+			return courseRepo.save(newCourse);
 		} else {
 			throw new CustomGenericException("This course doen't exists");
 		}

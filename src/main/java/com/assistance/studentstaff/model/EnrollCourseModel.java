@@ -21,9 +21,8 @@ public class EnrollCourseModel implements Serializable {
 	@EmbeddedId
 	private EnrollCourseIdModel enrollCourseId;
 
-	@Column(name = "status", nullable = false)
-	@NotBlank
-	private String status;
+	@Column(name = "approved", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean approved;
 
 	public EnrollCourseIdModel getEnrollCourseId() {
 		return enrollCourseId;
@@ -33,12 +32,12 @@ public class EnrollCourseModel implements Serializable {
 		this.enrollCourseId = enrollCourseId;
 	}
 
-	public String getStatus() {
-		return status;
+	public Boolean isApproved() {
+		return approved;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
 	}
 
 }

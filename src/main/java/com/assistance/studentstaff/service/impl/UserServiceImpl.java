@@ -66,8 +66,8 @@ public class UserServiceImpl implements IUserService {
 		}
 		Optional<UserRoleModel> userRole = userRolesRepo.findById(user.getRoleId());
 		if (userRole.isPresent()) {
-			departmentService.findDeptById(user.getDeptId());
-			programService.findProgramById(user.getProgId());
+			if(user.getDeptId()!=null)departmentService.findDeptById(user.getDeptId());
+			if(user.getProgId()!=null)programService.findProgramById(user.getProgId());
 			user.setUserId(UUID.randomUUID().toString());
 			user.setPassword(PasswordHashing.encrypt(user.getPassword()));
 			return setNullPassword(userRepo.save(user));

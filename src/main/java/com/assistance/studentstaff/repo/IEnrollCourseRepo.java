@@ -13,9 +13,12 @@ import com.assistance.studentstaff.model.EnrollCourseModel;
 public interface IEnrollCourseRepo extends JpaRepository<EnrollCourseModel, EnrollCourseIdModel>{
 
 	@Query("select ec from EnrollCourseModel ec where ec.enrollCourseId.userId = :userId")
-	List<EnrollCourseModel> fetchAllEnrolledCourses(String userId);
+	List<EnrollCourseModel> fetchAllEnrolledCoursesByUserId(String userId);
 
 	@Query("select count(ec) from EnrollCourseModel ec where ec.enrollCourseId.userId = :userId and ec.enrollCourseId.courseId = :courseId")
 	int fetchCount(String userId, String courseId);
+
+	@Query("select ec from EnrollCourseModel ec where ec.approved = :approved")
+	List<EnrollCourseModel> findEnrolledCoursesByStatus(Boolean approved);
 
 }
