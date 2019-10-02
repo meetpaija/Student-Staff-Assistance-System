@@ -40,7 +40,7 @@ public class DiscussionServiceImpl implements IDiscussionService {
 
 	@Autowired
 	IUserRolesService userRolesService;
-	
+
 	@Autowired
 	IUserRepo userRepo;
 
@@ -75,8 +75,8 @@ public class DiscussionServiceImpl implements IDiscussionService {
 	}
 
 	@Override
-	public DiscussionChatModel insertDiscChat(String userId, String discThreadId,
-			DiscussionChatModel discChatModel) throws CustomGenericException {
+	public DiscussionChatModel insertDiscChat(String userId, String discThreadId, DiscussionChatModel discChatModel)
+			throws CustomGenericException {
 		UserModel user = findUserById(userId);
 		if (discThreadRepo.existsById(discThreadId)) {
 			discChatModel.setDiscChatId(UUID.randomUUID().toString());
@@ -92,7 +92,7 @@ public class DiscussionServiceImpl implements IDiscussionService {
 
 	@Override
 	public List<DiscussionChatModel> fetchDiscChats(String discThreadId) throws CustomGenericException {
-		if(discThreadRepo.existsById(discThreadId)) {
+		if (discThreadRepo.existsById(discThreadId)) {
 			return discChatRepo.fetchDiscChatsInDescOrder(discThreadId);
 		} else {
 			throw new CustomGenericException("Discussion thread doen't exist");
@@ -131,7 +131,7 @@ public class DiscussionServiceImpl implements IDiscussionService {
 	@Override
 	public DiscussionChatModel updateDiscChat(String userId, String discThreadId, String discChatId,
 			DiscussionChatModel discChatModel) throws CustomGenericException {
-		
+
 		UserModel user = findUserById(userId);
 		VerifyDiscThread(discThreadId);
 		VerifyDiscChat(discChatId);
@@ -145,22 +145,27 @@ public class DiscussionServiceImpl implements IDiscussionService {
 	}
 
 	private void VerifyDiscChat(String discChatId) throws CustomGenericException {
-		if(!discChatRepo.existsById(discChatId))
+		if (!discChatRepo.existsById(discChatId))
 			throw new CustomGenericException("Discussion Chat doen't exist");
 	}
 
 	private void VerifyDiscThread(String discThreadId) throws CustomGenericException {
-		if(!discThreadRepo.existsById(discThreadId))
+		if (!discThreadRepo.existsById(discThreadId))
 			throw new CustomGenericException("Discussion Thread doen't exist");
 	}
 
 	private DiscussionChatModel findDiscChatById(String discChatId) throws CustomGenericException {
 		Optional<DiscussionChatModel> discussionChatModel = discChatRepo.findById(discChatId);
-		if(discussionChatModel.isPresent()) {
+		if (discussionChatModel.isPresent()) {
 			return discussionChatModel.get();
 		} else {
 			throw new CustomGenericException("Discussion Chat doen't exist");
 		}
+	}
+
+	@Override
+	public List<DiscussionThreadModel> fetchDiscThreads() throws CustomGenericException {
+		return discThreadRepo.findAll();
 	}
 
 }
