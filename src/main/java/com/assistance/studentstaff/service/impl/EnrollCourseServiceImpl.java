@@ -79,7 +79,7 @@ public class EnrollCourseServiceImpl implements IEnrollCourseService{
 		Optional<UserModel> user = userRepo.findById(userId);
 		if(user.isPresent()) {
 			UserRoleModel role = userRoleService.findUserRoleById(user.get().getRoleId());
-			if(StringUtils.equals(role.getType(), CommonConstants.ADMIN)) {
+			if(StringUtils.equalsIgnoreCase(role.getType(), CommonConstants.ADMIN)) {
 				Optional<EnrollCourseModel> existingEnrollCourse = enrollCourseRepo.findById(enrollCourseId);
 				if(existingEnrollCourse.isPresent()) {
 					EnrollCourseModel existingEnrollCourseModel = existingEnrollCourse.get();
