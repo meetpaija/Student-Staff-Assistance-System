@@ -31,7 +31,6 @@ public class UserModel implements Serializable{
 	private String emailId;
 
 	@Column(name = "PASSWORD")
-	@NotBlank
 	private String password;
 
 	@Column(name = "ROLE_ID")
