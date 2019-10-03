@@ -2,6 +2,7 @@ package com.assistance.studentstaff.controller;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +27,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/documents")
+@RequestMapping
 public class DocumentsController extends ResponseUtility {
 
+	@Autowired
 	IDocumentsService documentsServices;
 
 	@GetMapping
@@ -35,7 +38,7 @@ public class DocumentsController extends ResponseUtility {
 		return buildSuccessResponse(documentsServices.fetchAllDocuments());
 	}
 
-	@GetMapping("/{documentId}")
+	@GetMapping("/documents/{documentId}")
 	public ResponseEntity<ApiResponse> fetchDocumentById(@PathVariable("documentId") String documentId)
 			throws CustomGenericException {
 		return buildSuccessResponse(documentsServices.findDocumentById(documentId));
@@ -43,13 +46,14 @@ public class DocumentsController extends ResponseUtility {
 
 	@PostMapping("/users/{userId}/documents")
 	public ResponseEntity<ApiResponse> insertDocument(@PathVariable("userId") String userId,
-			@RequestPart(name = "data") String documentJson, @RequestPart(name = "file") MultipartFile file)
+			@RequestPart(name = "data") String documentJson,
+			@RequestPart(name = "file") MultipartFile file)
 			throws CustomGenericException, JsonParseException, JsonMappingException, IOException {
 		DocumentsModel document = new ObjectMapper().readValue(documentJson, DocumentsModel.class);
 		return buildSuccessResponse(documentsServices.insertDocument(userId, document, file));
 	}
 
-	@PutMapping("/users/{userId}/{documentId}")
+	@PutMapping("/users/{userId}/documents/{documentId}")
 	public ResponseEntity<ApiResponse> updateDocument(@PathVariable("userId") String userId,
 			@PathVariable("documentId") String documentId, @RequestPart(name = "data") String documentJson,
 			@RequestPart(name = "file") MultipartFile file)
@@ -58,7 +62,7 @@ public class DocumentsController extends ResponseUtility {
 		return buildSuccessResponse(documentsServices.updateDocument(userId, documentId, document, file));
 	}
 
-	@DeleteMapping("/{documentId}")
+	@DeleteMapping("/documents/{documentId}")
 	public ResponseEntity<ApiResponse> deleteDocument(@PathVariable("documentId") String documentId)
 			throws CustomGenericException {
 		documentsServices.deleteDocument(documentId);

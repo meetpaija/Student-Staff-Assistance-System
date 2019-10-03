@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.assistance.studentstaff.common.CustomGenericException;
@@ -15,6 +16,7 @@ import com.assistance.studentstaff.repo.IDocumentsRepo;
 import com.assistance.studentstaff.repo.IUserRepo;
 import com.assistance.studentstaff.service.IDocumentsService;
 
+@Service
 public class DocumentsServiceImpl implements IDocumentsService {
 
 	@Autowired
@@ -51,11 +53,14 @@ public class DocumentsServiceImpl implements IDocumentsService {
 			throws CustomGenericException {
 		DocumentsModel model = documentsRepo.findDocumentById(documentId);
 		if (model != null) {
-			document.setUpdatedBy(userId);
-			document.setTimestamp(Timestamp.from(Calendar.getInstance().toInstant()));
+			model.setUpdatedBy(userId);
+			model.setTimestamp(Timestamp.from(Calendar.getInstance().toInstant()));
 			if (!file.isEmpty()) {
-				document.setContentType(file.getContentType());
-				document.setLength(file.getSize());
+				model.setContentType(file.getContentType());
+				model.setLength(file.getSize());
+				model.setDocDesc(document.getDocDesc());
+				model.setDocTitle(document.getDocTitle());
+				model.setDocType(document.getDocType());
 				try {
 					document.setDocFile(file.getBytes());
 				} catch (IOException e) {
@@ -63,7 +68,7 @@ public class DocumentsServiceImpl implements IDocumentsService {
 					e.printStackTrace();
 				}
 			}
-			return documentsRepo.save(document);
+			return documentsRepo.save(model);
 		} else {
 			throw new CustomGenericException("document doesn't exists");
 		}

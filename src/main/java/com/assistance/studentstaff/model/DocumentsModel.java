@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -41,6 +42,12 @@ public class DocumentsModel implements Serializable {
 
 	@Column(name = "updated_by", nullable = false)
 	private String updatedBy;
+	
+	@Column(name = "doc_title")
+	private String docTitle;
+	
+	@Column(name = "doc_desc")
+	private String docDesc;
 
 	@Column(name = "timestamp", nullable = false)
 	private Timestamp timestamp;
@@ -108,4 +115,21 @@ public class DocumentsModel implements Serializable {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+
+	public String getDocTitle() {
+		return docTitle;
+	}
+
+	public void setDocTitle(String docTitle) {
+		this.docTitle = docTitle;
+	}
+
+	public String getDocDesc() {
+		return docDesc;
+	}
+
+	public void setDocDesc(String docDesc) {
+		this.docDesc = docDesc;
+	}
+	
 }
