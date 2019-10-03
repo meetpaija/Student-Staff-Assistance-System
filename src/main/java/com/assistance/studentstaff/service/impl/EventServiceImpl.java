@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +23,20 @@ import com.assistance.studentstaff.service.IEventsService;
 import com.assistance.studentstaff.service.IUserRolesService;
 
 @Service
-public class EventServiceImpl implements IEventsService{
+public class EventServiceImpl implements IEventsService {
 
 	@Autowired
 	IEventRepo eventRepo;
-	
+
 	@Autowired
 	IUserRepo userRepo;
-	
+
 	@Autowired
 	IUserRolesService userRoleService;
-	
+
 	@Override
 	public List<EventsModel> fetchAllEvents(String userId) {
-		if(StringUtils.isEmpty(userId)) {
+		if (StringUtils.isEmpty(userId)) {
 			return eventRepo.findAll();
 		} else {
 			return eventRepo.findByUserId(userId);
@@ -44,7 +46,7 @@ public class EventServiceImpl implements IEventsService{
 	@Override
 	public EventsModel fetchById(String eventId) throws CustomGenericException {
 		Optional<EventsModel> event = eventRepo.findById(eventId);
-		if(event.isPresent()) {
+		if (event.isPresent()) {
 			return event.get();
 		} else {
 			throw new CustomGenericException("This event doesn't exist");
@@ -54,12 +56,12 @@ public class EventServiceImpl implements IEventsService{
 	@Override
 	public EventsModel insertEvent(String userId, EventsModel event) throws CustomGenericException {
 		Optional<UserModel> existingUser = userRepo.findById(userId);
-		if(!existingUser.isPresent()) {
+		if (!existingUser.isPresent()) {
 			throw new CustomGenericException("User doesn't exist");
 		}
-		UserModel user = existingUser.get(); 
+		UserModel user = existingUser.get();
 		UserRoleModel userRole = userRoleService.findUserRoleById(user.getRoleId());
-		if(StringUtils.equalsIgnoreCase(userRole.getType(), CommonConstants.STAFF) 
+		if (StringUtils.equalsIgnoreCase(userRole.getType(), CommonConstants.STAFF)
 				|| StringUtils.equalsIgnoreCase(userRole.getType(), CommonConstants.ADMIN)) {
 			event.setEventId(UUID.randomUUID().toString());
 			event.setCreatedBy(userId);
@@ -72,7 +74,36 @@ public class EventServiceImpl implements IEventsService{
 			throw new CustomGenericException("Only Admin and Staff can add any events");
 		}
 	}
-	
-	
+
+	@Override
+	public EventsModel updateEvent(String userId, String eventId, @Valid EventsModel event)
+			throws CustomGenericException {
+		Optional<UserModel> existingUser = userRepo.findById(userId);
+		if (!existingUser.isPresent()) {
+			throw new CustomGenericException("User doesn't exist");
+		}
+		UserModel user = existingUser.get();
+		UserRoleModel userRole = userRoleService.findUserRoleById(user.getRoleId());
+		if (StringUtils.equalsIgnoreCase(userRole.getType(), CommonConstants.STAFF)
+				|| StringUtils.equalsIgnoreCase(userRole.getType(), CommonConstants.ADMIN)) {
+			EventsModel oldEvent = eventRepo.findByEventId(eventId);
+			if (oldEvent != null) {
+				oldEvent.setUpdatedBy(userId);
+				oldEvent.setUpdatedByUsername(user.getUserName());
+				oldEvent.setTimestamp(Timestamp.from(Calendar.getInstance().toInstant()));
+				oldEvent.setEventName(event.getEventName());
+				oldEvent.setEventDesc(event.getEventDesc());
+				oldEvent.setEventType(event.getEventType());
+				oldEvent.setEventDate(event.getEventDate());
+				oldEvent.setEventCategory(event.getEventCategory());
+				return eventRepo.save(oldEvent);
+			} else {
+				throw new CustomGenericException("event doesn't exist");
+			}
+
+		} else {
+			throw new CustomGenericException("Only Admin and Staff can add any events");
+		}
+	}
 
 }

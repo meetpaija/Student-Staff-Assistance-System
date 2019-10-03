@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class EventsModel implements Serializable {
 
 	private static final long serialVersionUID = 1939231813706624612L;
-	
+
 	@Id
-	@Column(name = "event_id",nullable=false)
+	@Column(name = "event_id", nullable = false)
 	private String eventId;
 
 	@Column(name = "event_name")
@@ -30,27 +30,30 @@ public class EventsModel implements Serializable {
 
 	@Column(name = "event_desc")
 	private String eventDesc;
-	
+
 	@Column(name = "event_type")
 	private String eventType;
-	
+
 	@Column(name = "created_by")
 	private String createdBy;
-	
+
 	@Column(name = "updated_by")
 	private String updatedBy;
 
 	@Column(name = "created_by_username")
 	private String createdByUsername;
-	
+
 	@Column(name = "updated_by_username")
 	private String updatedByUsername;
-	
-	@Column(name = "event_date", columnDefinition="DATETIME")
+
+	@Column(name = "event_date", columnDefinition = "DATETIME")
 	private Date eventDate;
-	
+
 	@Column(name = "timestamp")
 	private Timestamp timestamp;
+
+	@Column(name = "event_category")
+	private String eventCategory;
 
 	public String getEventId() {
 		return eventId;
@@ -131,7 +134,13 @@ public class EventsModel implements Serializable {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	
-	
+
+	public String getEventCategory() {
+		return eventCategory;
+	}
+
+	public void setEventCategory(String eventCategory) {
+		this.eventCategory = eventCategory;
+	}
 
 }

@@ -15,4 +15,6 @@ public interface IEventsService {
 
 	EventsModel insertEvent(String userId, @Valid EventsModel event) throws CustomGenericException;
 
+	EventsModel updateEvent(String userId, String eventId, @Valid EventsModel event) throws CustomGenericException;
+
 }

@@ -14,4 +14,6 @@ public interface IEventRepo extends JpaRepository<EventsModel, String>{
 	@Query("select e from EventsModel e where e.createdBy = :userId")
 	List<EventsModel> findByUserId(String userId);
 
+	@Query("select e from EventsModel e where e.eventId = :eventId")
+	EventsModel findByEventId(String eventId);
 }
