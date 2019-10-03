@@ -20,12 +20,12 @@ public class ProgramServiceImpl implements IProgramService {
 
 	@Autowired
 	IProgramRepo progRepo;
-	
+
 	@Autowired
 	IDepartmentService deptService;
-	
+
 	@Override
-	public List<ProgramModel> fetchAllPrograms(String deptId) throws CustomGenericException {
+	public List<ProgramModel> fetchAllProgramsByDeptId(String deptId) throws CustomGenericException {
 		deptService.findDeptById(deptId);
 		return progRepo.findByDeptId(deptId);
 	}
@@ -33,7 +33,7 @@ public class ProgramServiceImpl implements IProgramService {
 	@Override
 	public ProgramModel findProgramById(String progId) throws CustomGenericException {
 		Optional<ProgramModel> existingProg = progRepo.findById(progId);
-		if(existingProg.isPresent()) {
+		if (existingProg.isPresent()) {
 			return existingProg.get();
 		} else {
 			throw new CustomGenericException("Program doesn't exist");
@@ -44,7 +44,7 @@ public class ProgramServiceImpl implements IProgramService {
 	public ProgramModel insertProgram(String deptId, @Valid ProgramModel prog) throws CustomGenericException {
 		deptService.findDeptById(deptId);
 		Optional<ProgramModel> existingProg = progRepo.findByProgName(prog.getProgName());
-		if(existingProg.isPresent()) {
+		if (existingProg.isPresent()) {
 			throw new CustomGenericException("Program already exist");
 		} else {
 			deptService.findDeptById(prog.getDeptId());
@@ -55,7 +55,8 @@ public class ProgramServiceImpl implements IProgramService {
 	}
 
 	@Override
-	public ProgramModel updateProgram(String deptId, String progId, @Valid ProgramModel prog) throws CustomGenericException {
+	public ProgramModel updateProgram(String deptId, String progId, @Valid ProgramModel prog)
+			throws CustomGenericException {
 		findProgramById(progId);
 		prog.setProgId(progId);
 		prog.setDeptId(deptId);
@@ -66,6 +67,11 @@ public class ProgramServiceImpl implements IProgramService {
 	public void deleteProgram(String progId) throws CustomGenericException {
 		findProgramById(progId);
 		progRepo.deleteById(progId);
+	}
+
+	@Override
+	public List<ProgramModel> fetchAllPrograms() throws CustomGenericException {
+		return progRepo.findAll();
 	}
 
 }

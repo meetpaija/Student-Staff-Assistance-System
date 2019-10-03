@@ -10,12 +10,15 @@ import org.springframework.stereotype.Repository;
 import com.assistance.studentstaff.model.ProgramModel;
 
 @Repository
-public interface IProgramRepo extends JpaRepository<ProgramModel, String>{
+public interface IProgramRepo extends JpaRepository<ProgramModel, String> {
 
 	@Query("select prog from ProgramModel prog where prog.progName=:progName")
 	Optional<ProgramModel> findByProgName(String progName);
 
 	@Query("select prog from ProgramModel prog where prog.deptId=:deptId")
 	List<ProgramModel> findByDeptId(String deptId);
+
+	@Query("select prog from ProgramModel prog")
+	List<ProgramModel> findAll();
 
 }

@@ -28,9 +28,15 @@ public class ProgramController extends ResponseUtility {
 	@Autowired
 	IProgramService programService;
 
+	@GetMapping("/programs")
+	public ResponseEntity<ApiResponse> fetchAllPrograms() throws CustomGenericException {
+		return buildSuccessResponse(programService.fetchAllPrograms());
+	}
+
 	@GetMapping("/departments/{deptId}/programs")
-	public ResponseEntity<ApiResponse> fetchAllPrograms(@PathVariable("deptId") String deptId) throws CustomGenericException {
-		return buildSuccessResponse(programService.fetchAllPrograms(deptId));
+	public ResponseEntity<ApiResponse> fetchAllProgramsByDept(@PathVariable("deptId") String deptId)
+			throws CustomGenericException {
+		return buildSuccessResponse(programService.fetchAllProgramsByDeptId(deptId));
 	}
 
 	@GetMapping("/programs/{progId}")
@@ -40,14 +46,15 @@ public class ProgramController extends ResponseUtility {
 	}
 
 	@PostMapping("/departments/{deptId}/programs")
-	public ResponseEntity<ApiResponse> insertNewProgram(@PathVariable("deptId") String deptId, @Valid @RequestBody ProgramModel prog)
-			throws CustomGenericException {
+	public ResponseEntity<ApiResponse> insertNewProgram(@PathVariable("deptId") String deptId,
+			@Valid @RequestBody ProgramModel prog) throws CustomGenericException {
 		return buildSuccessResponse(programService.insertProgram(deptId, prog));
 	}
 
 	@PutMapping("/departments/{deptId}/programs/{progId}")
-	public ResponseEntity<ApiResponse> updateProgram(@PathVariable("deptId") String deptId, @PathVariable("progId") String progId,
-			@Valid @RequestBody ProgramModel prog) throws CustomGenericException {
+	public ResponseEntity<ApiResponse> updateProgram(@PathVariable("deptId") String deptId,
+			@PathVariable("progId") String progId, @Valid @RequestBody ProgramModel prog)
+			throws CustomGenericException {
 		return buildSuccessResponse(programService.updateProgram(deptId, progId, prog));
 	}
 
