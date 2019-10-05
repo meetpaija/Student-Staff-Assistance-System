@@ -10,15 +10,20 @@ import com.assistance.studentstaff.model.DiscussionThreadModel;
 
 public interface IDiscussionService {
 
-	DiscussionThreadModel createDiscThread(String userId, DiscussionThreadModel discThreadModel) throws CustomGenericException;
+	DiscussionThreadModel createDiscThread(String userId, DiscussionThreadModel discThreadModel)
+			throws CustomGenericException;
 
-	DiscussionChatModel insertDiscChat(String userId, String discThreadId, DiscussionChatModel discChatModel) throws CustomGenericException;
+	DiscussionChatModel insertDiscChat(String userId, String discThreadId, DiscussionChatModel discChatModel)
+			throws CustomGenericException;
+
+	List<DiscussionThreadModel> fetchDiscThreads() throws CustomGenericException;
 
 	List<DiscussionChatModel> fetchDiscChats(String discThreadId) throws CustomGenericException;
 
-	DiscussionThreadModel updateDiscThread(String userId, String discThreadId, DiscussionThreadModel discThreadModel) throws CustomGenericException;
+	DiscussionThreadModel updateDiscThread(String userId, String discThreadId, DiscussionThreadModel discThreadModel)
+			throws CustomGenericException;
 
 	DiscussionChatModel updateDiscChat(String userId, String discThreadId, String discChatId,
-			 DiscussionChatModel discChatModel) throws CustomGenericException;
+			DiscussionChatModel discChatModel) throws CustomGenericException;
 
 }

@@ -31,7 +31,6 @@ public class UserModel implements Serializable{
 	private String emailId;
 
 	@Column(name = "PASSWORD")
-	@NotBlank
 	private String password;
 
 	@Column(name = "ROLE_ID")
@@ -41,14 +40,17 @@ public class UserModel implements Serializable{
 	@Column(name = "FNAME")
 	private String firstName;
 	
+	@Column(name = "DEPT_ID")
+	private String deptId;
+	
+	@Column(name = "PROG_ID")
+	private String progId;
+	
 	@Column(name = "LNAME")
 	private String lastName;
 	
 	@Column(name = "MOBILE_NO")
 	private long mobileNo;
-	
-	@Column(name = "ADDRESS")
-	private String address;
 	
 	public String getUserId() {
 		return userId;
@@ -114,12 +116,20 @@ public class UserModel implements Serializable{
 		this.mobileNo = mobileNo;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getDeptId() {
+		return deptId;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getProgId() {
+		return progId;
+	}
+
+	public void setProgId(String progId) {
+		this.progId = progId;
 	}
 
 }

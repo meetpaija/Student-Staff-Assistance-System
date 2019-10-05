@@ -20,4 +20,6 @@ public interface IUserService {
 	public UserModel loginUser(String userNameOrEmailId, String password) throws CustomGenericException;
 
 	public UserModel changePassword(String userId, String newPassword) throws CustomGenericException;
+
+	public void forgetPassword(String emailId) throws CustomGenericException;
 }

@@ -5,8 +5,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.assistance.studentstaff.common.CustomGenericException;
@@ -15,6 +21,8 @@ import com.assistance.studentstaff.model.UserModel;
 import com.assistance.studentstaff.model.UserRoleModel;
 import com.assistance.studentstaff.repo.IUserRepo;
 import com.assistance.studentstaff.repo.IUserRolesRepo;
+import com.assistance.studentstaff.service.IDepartmentService;
+import com.assistance.studentstaff.service.IProgramService;
 import com.assistance.studentstaff.service.IUserAvatarImageService;
 import com.assistance.studentstaff.service.IUserService;
 
@@ -23,12 +31,21 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	IUserRepo userRepo;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	@Autowired
 	IUserRolesRepo userRolesRepo;
 
 	@Autowired
 	IUserAvatarImageService userAvatarImageService;
+	
+	@Autowired
+	IDepartmentService departmentService;
+	
+	@Autowired
+	IProgramService programService;
 
 	@Override
 	public List<UserModel> fetchAllUsers() {
@@ -49,6 +66,8 @@ public class UserServiceImpl implements IUserService {
 		}
 		Optional<UserRoleModel> userRole = userRolesRepo.findById(user.getRoleId());
 		if (userRole.isPresent()) {
+			if(user.getDeptId()!=null)departmentService.findDeptById(user.getDeptId());
+			if(user.getProgId()!=null)programService.findProgramById(user.getProgId());
 			user.setUserId(UUID.randomUUID().toString());
 			user.setPassword(PasswordHashing.encrypt(user.getPassword()));
 			return setNullPassword(userRepo.save(user));
@@ -116,6 +135,39 @@ public class UserServiceImpl implements IUserService {
 			return setNullPassword(userRepo.save(existingUser.get()));
 		} else {
 			throw new CustomGenericException("User doesn't exists");
+		}
+	}
+
+	@Override
+	public void forgetPassword(String emailId) throws CustomGenericException {
+		Optional<UserModel> existingUser = userRepo.findByEmailIdOrUserName(emailId, emailId);
+		if (existingUser.isPresent()) {
+			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			String randomPwd = RandomStringUtils.random( 5, characters );
+			existingUser.get().setPassword(PasswordHashing.encrypt(randomPwd));
+			userRepo.save(existingUser.get());
+			sendRandomPwdInMail(existingUser.get(), randomPwd);
+		} else {
+			throw new CustomGenericException("User doesn't exists");
+		}
+	}
+
+	private void sendRandomPwdInMail(UserModel userModel, String randomPwd) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper;
+		
+		try {
+			helper = new MimeMessageHelper(mimeMessage,true);
+			helper.setTo(userModel.getEmailId());
+			helper.setSubject("Password To Login Securely");
+			helper.setText("Dear " + userModel.getUserName() + ",\n\n" 
+						+ "Your random password for next login is :" + randomPwd + "\n\n" 
+						+ "Please change your password after login to the System. \n\n" 
+						+ "Thanks,\nStudent Staff Assistance System");
+			javaMailSender.send(mimeMessage);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 	}
 
