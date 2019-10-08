@@ -21,7 +21,7 @@ import com.assistance.studentstaff.model.ProgramModel;
 import com.assistance.studentstaff.service.IProgramService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class ProgramController extends ResponseUtility {
 

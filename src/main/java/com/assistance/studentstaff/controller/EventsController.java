@@ -22,7 +22,7 @@ import com.assistance.studentstaff.model.EventsModel;
 import com.assistance.studentstaff.service.IEventsService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class EventsController extends ResponseUtility {
 

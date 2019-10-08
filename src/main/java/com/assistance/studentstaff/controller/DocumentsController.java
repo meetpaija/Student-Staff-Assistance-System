@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class DocumentsController extends ResponseUtility {
 

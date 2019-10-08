@@ -23,7 +23,7 @@ import com.assistance.studentstaff.model.EnrollCourseIdModel;
 import com.assistance.studentstaff.service.IEnrollCourseService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class EnrollCourseController extends ResponseUtility {
 

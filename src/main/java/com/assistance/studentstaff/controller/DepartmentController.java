@@ -21,7 +21,7 @@ import com.assistance.studentstaff.model.DepartmentModel;
 import com.assistance.studentstaff.service.IDepartmentService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/departments")
 public class DepartmentController extends ResponseUtility {
 

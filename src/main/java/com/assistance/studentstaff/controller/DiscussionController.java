@@ -22,7 +22,7 @@ import com.assistance.studentstaff.model.DiscussionThreadModel;
 import com.assistance.studentstaff.service.IDiscussionService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class DiscussionController extends ResponseUtility {
 

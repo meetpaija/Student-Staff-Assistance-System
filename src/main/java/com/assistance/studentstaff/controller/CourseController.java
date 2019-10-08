@@ -21,7 +21,7 @@ import com.assistance.studentstaff.model.CourseModel;
 import com.assistance.studentstaff.service.ICourseService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class CourseController extends ResponseUtility {
 

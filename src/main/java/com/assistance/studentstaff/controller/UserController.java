@@ -24,7 +24,7 @@ import com.assistance.studentstaff.service.IUserAvatarImageService;
 import com.assistance.studentstaff.service.IUserService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/users")
 public class UserController extends ResponseUtility {
 

@@ -14,7 +14,7 @@ import com.assistance.studentstaff.common.ResponseUtility;
 import com.assistance.studentstaff.service.IUserService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class ForgetPasswordController extends ResponseUtility {
 	

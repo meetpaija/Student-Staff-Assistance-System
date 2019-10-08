@@ -21,7 +21,7 @@ import com.assistance.studentstaff.model.UserRoleModel;
 import com.assistance.studentstaff.service.IUserRolesService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/roles")
 public class UserRolesController extends ResponseUtility {
 	
