@@ -2,7 +2,6 @@ package com.assistance.studentstaff.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ import com.assistance.studentstaff.common.ResponseUtility;
 import com.assistance.studentstaff.service.IUserService;
 
 @RestController
-//@CrossOrigin
 @RequestMapping
 public class ForgetPasswordController extends ResponseUtility {
 	
