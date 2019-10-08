@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -166,6 +164,18 @@ public class DiscussionServiceImpl implements IDiscussionService {
 	@Override
 	public List<DiscussionThreadModel> fetchDiscThreads() throws CustomGenericException {
 		return discThreadRepo.findAll();
+	}
+
+	@Override
+	public void deleteDiscThread(String discThreadId) throws CustomGenericException {
+		findDiscThreadById(discThreadId);
+		discThreadRepo.deleteById(discThreadId);
+	}
+
+	@Override
+	public void deleteDiscChat(String discChatId) throws CustomGenericException {
+		findDiscChatById(discChatId);
+		discChatRepo.deleteById(discChatId);
 	}
 
 }
