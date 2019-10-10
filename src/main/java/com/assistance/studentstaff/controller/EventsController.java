@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.assistance.studentstaff.common.ApiResponse;
 import com.assistance.studentstaff.common.CustomGenericException;
 import com.assistance.studentstaff.common.ResponseUtility;
-import com.assistance.studentstaff.model.DiscussionThreadModel;
 import com.assistance.studentstaff.model.EventsModel;
-import com.assistance.studentstaff.service.IDiscussionService;
 import com.assistance.studentstaff.service.IEventsService;
 
 @RestController
-@CrossOrigin
 @RequestMapping
 public class EventsController extends ResponseUtility {
 
@@ -53,5 +50,12 @@ public class EventsController extends ResponseUtility {
 			@PathVariable("eventId") String eventId, @Valid @RequestBody EventsModel event)
 			throws CustomGenericException {
 		return buildSuccessResponse(eventService.updateEvent(userId, eventId, event));
+	}
+	
+	@DeleteMapping("/events/{eventId}")
+	public ResponseEntity<ApiResponse> deleteEvent(@PathVariable("eventId") String eventId)
+					throws CustomGenericException {
+		eventService.deleteEvent(eventId);
+		return buildSuccessResponse();
 	}
 }

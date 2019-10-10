@@ -17,4 +17,6 @@ public interface IEventsService {
 
 	EventsModel updateEvent(String userId, String eventId, @Valid EventsModel event) throws CustomGenericException;
 
+	void deleteEvent(String eventId) throws CustomGenericException;
+
 }

@@ -14,7 +14,7 @@ import com.assistance.studentstaff.common.ResponseUtility;
 import com.assistance.studentstaff.service.IActivityService;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping
 public class ActivityTraceController extends ResponseUtility {
 

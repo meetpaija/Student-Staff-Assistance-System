@@ -106,4 +106,10 @@ public class EventServiceImpl implements IEventsService {
 		}
 	}
 
+	@Override
+	public void deleteEvent(String eventId) throws CustomGenericException {
+		fetchById(eventId);
+		eventRepo.deleteById(eventId);
+	}
+
 }

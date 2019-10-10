@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,6 @@ import com.assistance.studentstaff.model.DiscussionThreadModel;
 import com.assistance.studentstaff.service.IDiscussionService;
 
 @RestController
-@CrossOrigin
 @RequestMapping
 public class DiscussionController extends ResponseUtility {
 
@@ -59,6 +58,20 @@ public class DiscussionController extends ResponseUtility {
 	public ResponseEntity<ApiResponse> fetchDiscChats(@PathVariable("discThreadId") String discThreadId)
 			throws CustomGenericException {
 		return buildSuccessResponse(discService.fetchDiscChats(discThreadId));
+	}
+	
+	@DeleteMapping("/discussionThreads/{discThreadId}")
+	public ResponseEntity<ApiResponse> deleteDiscThread(@PathVariable("discThreadId") String discThreadId)
+			throws CustomGenericException {
+		discService.deleteDiscThread(discThreadId);
+		return buildSuccessResponse();
+	}
+	
+	@DeleteMapping("/discussionChats/{discChatId}")
+	public ResponseEntity<ApiResponse> deleteDiscChat(@PathVariable("discChatId") String discChatId)
+			throws CustomGenericException {
+		discService.deleteDiscChat(discChatId);
+		return buildSuccessResponse();
 	}
 
 	@GetMapping("/discussionThreads")
